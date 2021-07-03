@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 
+# This script writes a triagonal grid of equidistant dots as an svg-file.
+
 import math
 
 RT2 = math.sqrt(2)
 RT3 = math.sqrt(3)
 ROUNDTO = 2
+FILENAME = "my_dot_paper.svg"
 
 # paper format is A4
 width, height = 210, 297 # millimeters
@@ -15,8 +18,7 @@ numy = 30 #number of points on vertical axis
 numx = int(round( numy * RT2 / RT3, 4))
 
 scale = height / numy
-pad_x = (width - numx * scale * RT3 / 2) / 2 
-
+pad_x = (width - numx * scale * RT3 / 2) / 2
 
 allpoints = []
 
@@ -26,7 +28,7 @@ for yi in range(numy):
     for xi in range(numx - 1):
         allpoints += [(round((xi + 0.5) * RT3 * scale + pad_x, ROUNDTO), round((yi + 0.5) * scale, ROUNDTO))]
 
-file = open("my_dot_paper.svg", "w")
+file = open(FILENAME, "w")
 
 svg_header = '<?xml version="1.0" encoding="utf-8" ?>'
 svg_header += '<svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" '
@@ -43,3 +45,5 @@ for p in allpoints:
 file.write('</svg>')
 
 file.close()
+
+print("written document \"{}\" with {} points".format(FILENAME, len(allpoints)))
